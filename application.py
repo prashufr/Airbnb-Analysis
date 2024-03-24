@@ -14,7 +14,14 @@ from PIL import Image
 # Streamlit part
 
 st.set_page_config(layout= "wide")
-st.title("AIRBNB DATA ANALYSIS")
+st.markdown(
+    f""" <style>.stApp {{
+                    background:url("https://wallpapers.com/images/high/red-gradient-background-stqwj36ihqid8933.webp");
+                    background-size:cover}}
+                 </style>""",
+    unsafe_allow_html=True
+)
+st.title(":violet[AIRBNB DATA ANALYSIS]")
 st.write("")
 
 def datafr():
@@ -24,43 +31,31 @@ def datafr():
 df= datafr()
 
 with st.sidebar:
-    select= option_menu("Main Menu", ["Home", "Data Exploration", "About"])
+    select = option_menu(
+        menu_title="Menu",
+        options=["Home", "Data Exploration", "About"],
+        icons=["house", "bar-chart", "person"],
+        menu_icon="app-indicator",
+    )
 
 if select == "Home":
 
  #   image1= Image.open("C:/Users/vignesh/Desktop/New folder/Airbnb image.jpg")
  #   st.image(image1)
 
-    st.header("About Airbnb")
+    st.header(":orange[About Airbnb]")
     st.write("")
-    st.write('''***Airbnb is an online marketplace that connects people who want to rent out
-              their property with people who are looking for accommodations,
-              typically for short stays. Airbnb offers hosts a relatively easy way to
-              earn some income from their property.Guests often find that Airbnb rentals
-              are cheaper and homier than hotels.***''')
+    st.write('''***Airbnb is an innovative online platform facilitating connections between property owners seeking to rent
+             out their spaces and individuals searching for short-term accommodations. It serves as a marketplace where hosts can easily earn income by listing their properties for rent. This platform offers guests a cost-effective and cozy alternative to traditional hotels.***''')
     st.write("")
-    st.write('''***Airbnb Inc (Airbnb) operates an online platform for hospitality services.
-                  The company provides a mobile application (app) that enables users to list,
-                  discover, and book unique accommodations across the world.
-                  The app allows hosts to list their properties for lease,
-                  and enables guests to rent or lease on a short-term basis,
-                  which includes vacation rentals, apartment rentals, homestays, castles,
-                  tree houses and hotel rooms. The company has presence in China, India, Japan,
-                  Australia, Canada, Austria, Germany, Switzerland, Belgium, Denmark, France, Italy,
-                  Norway, Portugal, Russia, Spain, Sweden, the UK, and others.
-                  Airbnb is headquartered in San Francisco, California, the US.***''')
-    
-    st.header("Background of Airbnb")
-    st.write("")
-    st.write('''***Airbnb was born in 2007 when two Hosts welcomed three guests to their
-              San Francisco home, and has since grown to over 4 million Hosts who have
-                welcomed over 1.5 billion guest arrivals in almost every country across the globe.***''')
+    st.write('''***Operating under Airbnb Inc, the company provides a user-friendly mobile application, allowing users
+             worldwide to explore and book unique accommodations. Through this app, hosts can list various properties ranging from vacation rentals to unconventional options like castles and treehouses, while guests can conveniently rent these spaces for short stays. With a global presence spanning numerous countries including China, India, and the UK, Airbnb is headquartered in San Francisco, California. This innovative platform has revolutionized the hospitality industry, offering both hosts and guests unparalleled flexibility and choice in accommodation options.***''')
 
 
 if select == "Data Exploration":
-    tab1, tab2, tab3, tab4, tab5= st.tabs(["***PRICE ANALYSIS***","***AVAILABILITY ANALYSIS***","***LOCATION BASED***", "***GEOSPATIAL VISUALIZATION***", "***TOP CHARTS***"])
+    tab1, tab2, tab3, tab4, tab5= st.tabs(["***Price Analysis***","***Availability Analysis***","***Location Based Analysis***", "***Geospatial Analysis***", "***Top Charts***"])
     with tab1:
-        st.title("**PRICE DIFFERENCE**")
+        st.title("**:green[PRICE DIFFERENCE]**")
         col1,col2= st.columns(2)
 
         with col1:
@@ -79,7 +74,7 @@ if select == "Data Exploration":
             df_bar= pd.DataFrame(df2.groupby("property_type")[["price","review_scores","number_of_reviews"]].sum())
             df_bar.reset_index(inplace= True)
 
-            fig_bar= px.bar(df_bar, x='property_type', y= "price", title= "PRICE FOR PROPERTY_TYPES",hover_data=["number_of_reviews","review_scores"],color_discrete_sequence=px.colors.sequential.Redor_r, width=600, height=500)
+            fig_bar= px.bar(df_bar, x='property_type', y= "price", title= "Price For Property Types",hover_data=["number_of_reviews","review_scores"],color_discrete_sequence=px.colors.sequential.Redor_r, width=600, height=500)
             st.plotly_chart(fig_bar)
 
         
@@ -91,7 +86,7 @@ if select == "Data Exploration":
             st.write("")
             st.write("")
      
-            proper_ty= st.selectbox("Select the Property_type",df2["property_type"].unique())
+            proper_ty= st.selectbox("Select the Property Type",df2["property_type"].unique())
 
             df4= df2[df2["property_type"] == proper_ty]
             df4.reset_index(drop= True, inplace= True)
@@ -102,7 +97,7 @@ if select == "Data Exploration":
             fig_pi= px.pie(df_pie, values="price", names= "host_response_time",
                             hover_data=["bedrooms"],
                             color_discrete_sequence=px.colors.sequential.BuPu_r,
-                            title="PRICE DIFFERENCE BASED ON HOST RESPONSE TIME",
+                            title="Price difference based on Host Response Time",
                             width= 600, height= 500)
             st.plotly_chart(fig_pi)
 
@@ -111,7 +106,7 @@ if select == "Data Exploration":
         with col1:
 
             
-            hostresponsetime= st.selectbox("Select the host_response_time",df4["host_response_time"].unique())
+            hostresponsetime= st.selectbox("Select the Host Response Time",df4["host_response_time"].unique())
 
             df5= df4[df4["host_response_time"] == hostresponsetime]
 
@@ -119,7 +114,7 @@ if select == "Data Exploration":
             df_do_bar.reset_index(inplace= True)
 
             fig_do_bar = px.bar(df_do_bar, x='bed_type', y=['minimum_nights', 'maximum_nights'], 
-            title='MINIMUM NIGHTS AND MAXIMUM NIGHTS',hover_data="price",
+            title='Minimum and Maximum Nights',hover_data="price",
             barmode='group',color_discrete_sequence=px.colors.sequential.Rainbow, width=600, height=500)
             
 
@@ -137,7 +132,7 @@ if select == "Data Exploration":
             df_do_bar_2.reset_index(inplace= True)
 
             fig_do_bar_2 = px.bar(df_do_bar_2, x='bed_type', y=['bedrooms', 'beds', 'accommodates'], 
-            title='BEDROOMS AND BEDS ACCOMMODATES',hover_data="price",
+            title='Bedrooms and Accommodates',hover_data="price",
             barmode='group',color_discrete_sequence=px.colors.sequential.Rainbow_r, width= 600, height= 500)
            
             st.plotly_chart(fig_do_bar_2)
@@ -150,13 +145,13 @@ if select == "Data Exploration":
 
         df_a= datafr()
 
-        st.title("**AVAILABILITY ANALYSIS**")
+        st.title("**:green[Availability Analysis]**")
         col1,col2= st.columns(2)
 
         with col1:
             
             
-            country_a= st.selectbox("Select the Country_a",df_a["country"].unique())
+            country_a= st.selectbox("Select the Country",df_a["country"].unique(),key='1')
 
             df1_a= df[df["country"] == country_a]
             df1_a.reset_index(drop= True, inplace= True)
@@ -166,7 +161,7 @@ if select == "Data Exploration":
             df2_a= df1_a[df1_a["property_type"] == property_ty_a]
             df2_a.reset_index(drop= True, inplace= True)
 
-            df_a_sunb_30= px.sunburst(df2_a, path=["room_type","bed_type","is_location_exact"], values="availability_30",width=600,height=500,title="Availability_30",color_discrete_sequence=px.colors.sequential.Peach_r)
+            df_a_sunb_30= px.sunburst(df2_a, path=["room_type","bed_type","is_location_exact"], values="availability_30",width=600,height=500,title="Availability30",color_discrete_sequence=px.colors.sequential.Peach_r)
             st.plotly_chart(df_a_sunb_30)
         
         with col2:
@@ -182,22 +177,22 @@ if select == "Data Exploration":
             st.write("")
             
 
-            df_a_sunb_60= px.sunburst(df2_a, path=["room_type","bed_type","is_location_exact"], values="availability_60",width=600,height=500,title="Availability_60",color_discrete_sequence=px.colors.sequential.Blues_r)
+            df_a_sunb_60= px.sunburst(df2_a, path=["room_type","bed_type","is_location_exact"], values="availability_60",width=600,height=500,title="Availability 60",color_discrete_sequence=px.colors.sequential.Blues_r)
             st.plotly_chart(df_a_sunb_60)
 
         col1,col2= st.columns(2)
 
         with col1:
             
-            df_a_sunb_90= px.sunburst(df2_a, path=["room_type","bed_type","is_location_exact"], values="availability_90",width=600,height=500,title="Availability_90",color_discrete_sequence=px.colors.sequential.Aggrnyl_r)
+            df_a_sunb_90= px.sunburst(df2_a, path=["room_type","bed_type","is_location_exact"], values="availability_90",width=600,height=500,title="Availability 90",color_discrete_sequence=px.colors.sequential.Aggrnyl_r)
             st.plotly_chart(df_a_sunb_90)
 
         with col2:
 
-            df_a_sunb_365= px.sunburst(df2_a, path=["room_type","bed_type","is_location_exact"], values="availability_365",width=600,height=500,title="Availability_365",color_discrete_sequence=px.colors.sequential.Greens_r)
+            df_a_sunb_365= px.sunburst(df2_a, path=["room_type","bed_type","is_location_exact"], values="availability_365",width=600,height=500,title="Availability 365",color_discrete_sequence=px.colors.sequential.Greens_r)
             st.plotly_chart(df_a_sunb_365)
         
-        roomtype_a= st.selectbox("Select the Room Type_a", df2_a["room_type"].unique())
+        roomtype_a= st.selectbox("Select the Room Type", df2_a["room_type"].unique(),key='2')
 
         df3_a= df2_a[df2_a["room_type"] == roomtype_a]
 
@@ -205,7 +200,7 @@ if select == "Data Exploration":
         df_mul_bar_a.reset_index(inplace= True)
 
         fig_df_mul_bar_a = px.bar(df_mul_bar_a, x='host_response_time', y=['availability_30', 'availability_60', 'availability_90', "availability_365"], 
-        title='AVAILABILITY BASED ON HOST RESPONSE TIME',hover_data="price",
+        title='Availability based on Host Response Time',hover_data="price",
         barmode='group',color_discrete_sequence=px.colors.sequential.Rainbow_r,width=1000)
 
         st.plotly_chart(fig_df_mul_bar_a)
@@ -213,7 +208,7 @@ if select == "Data Exploration":
 
     with tab3:
 
-        st.title("LOCATION ANALYSIS")
+        st.title(":green[Location Analysis]")
         st.write("")
 
         def datafr():
@@ -222,12 +217,12 @@ if select == "Data Exploration":
 
         df_l= datafr()
 
-        country_l= st.selectbox("Select the Country_l",df_l["country"].unique())
+        country_l= st.selectbox("Select the Country",df_l["country"].unique(),key='3')
 
         df1_l= df_l[df_l["country"] == country_l]
         df1_l.reset_index(drop= True, inplace= True)
 
-        proper_ty_l= st.selectbox("Select the Property_type_l",df1_l["property_type"].unique())
+        proper_ty_l= st.selectbox("Select the Property Type",df1_l["property_type"].unique(),key='4')
 
         df2_l= df1_l[df1_l["property_type"] == proper_ty_l]
         df2_l.reset_index(drop= True, inplace= True)
@@ -256,7 +251,7 @@ if select == "Data Exploration":
             
         differ_max_min= df2_l['price'].max()-df2_l['price'].min()
 
-        val_sel= st.radio("Select the Price Range",[str(df2_l['price'].min())+' '+str('to')+' '+str(differ_max_min*0.30 + df2_l['price'].min())+' '+str("(30% of the Value)"),
+        val_sel= st.radio(":blue[Select the Price Range]",[str(df2_l['price'].min())+' '+str('to')+' '+str(differ_max_min*0.30 + df2_l['price'].min())+' '+str("(30% of the Value)"),
                                                     
                                                     str(differ_max_min*0.30 + df2_l['price'].min())+' '+str('to')+' '+str(differ_max_min*0.60 + df2_l['price'].min())+' '+str("(30% to 60% of the Value)"),
 
@@ -264,7 +259,7 @@ if select == "Data Exploration":
                                           
         df_val_sel= select_the_df(val_sel)
 
-        st.dataframe(df_val_sel)
+        #st.dataframe(df_val_sel)
 
         # checking the correlation
 
@@ -279,32 +274,32 @@ if select == "Data Exploration":
                                             "country", "country_code","location_type","is_location_exact",
                                             "amenities"]).corr()
         
-        st.dataframe(df_val_sel_corr)
+        #st.dataframe(df_val_sel_corr)
 
         df_val_sel_gr= pd.DataFrame(df_val_sel.groupby("accommodates")[["cleaning_fee","bedrooms","beds","extra_people"]].sum())
         df_val_sel_gr.reset_index(inplace= True)
 
-        fig_1= px.bar(df_val_sel_gr, x="accommodates", y= ["cleaning_fee","bedrooms","beds"], title="ACCOMMODATES",
+        fig_1= px.bar(df_val_sel_gr, x="accommodates", y= ["cleaning_fee","bedrooms","beds"], title="Accommodates",
                     hover_data= "extra_people", barmode='group', color_discrete_sequence=px.colors.sequential.Rainbow_r,width=1000)
         st.plotly_chart(fig_1)
         
         
-        room_ty_l= st.selectbox("Select the Room_Type_l", df_val_sel["room_type"].unique())
+        room_ty_l= st.selectbox("Select the Room Type", df_val_sel["room_type"].unique(),key='5')
 
         df_val_sel_rt= df_val_sel[df_val_sel["room_type"] == room_ty_l]
 
-        fig_2= px.bar(df_val_sel_rt, x= ["street","host_location","host_neighbourhood"],y="market", title="MARKET",
+        fig_2= px.bar(df_val_sel_rt, x= ["street","host_location","host_neighbourhood"],y="market", title="Market",
                     hover_data= ["name","host_name","market"], barmode='group',orientation='h', color_discrete_sequence=px.colors.sequential.Rainbow_r,width=1000)
         st.plotly_chart(fig_2)
 
-        fig_3= px.bar(df_val_sel_rt, x="government_area", y= ["host_is_superhost","host_neighbourhood","cancellation_policy"], title="GOVERNMENT_AREA",
+        fig_3= px.bar(df_val_sel_rt, x="government_area", y= ["host_is_superhost","host_neighbourhood","cancellation_policy"], title="Government Area",
                     hover_data= ["guests_included","location_type"], barmode='group', color_discrete_sequence=px.colors.sequential.Rainbow_r,width=1000)
         st.plotly_chart(fig_3)
 
 
     with tab4:
 
-        st.title("GEOSPATIAL VISUALIZATION")
+        st.title(":green[Geospatial Visualization]")
         st.write("")
 
         fig_4 = px.scatter_mapbox(df, lat='latitude', lon='longitude', color='price', size='accommodates',
@@ -316,11 +311,11 @@ if select == "Data Exploration":
 
     with tab5:
 
-        country_t= st.selectbox("Select the Country_t",df["country"].unique())
+        country_t= st.selectbox("Select the Country",df["country"].unique(),key='6')
 
         df1_t= df[df["country"] == country_t]
 
-        property_ty_t= st.selectbox("Select the Property_type_t",df1_t["property_type"].unique())
+        property_ty_t= st.selectbox("Select the Property Type",df1_t["property_type"].unique(),key='7')
 
         df2_t= df1_t[df1_t["property_type"] == property_ty_t]
         df2_t.reset_index(drop= True, inplace= True)
@@ -338,13 +333,13 @@ if select == "Data Exploration":
         with col1:
             
             fig_price= px.bar(df_price, x= "Total_price", y= "host_neighbourhood", orientation='h',
-                            title= "PRICE BASED ON HOST_NEIGHBOURHOOD", width= 600, height= 800)
+                            title= "Price based on Host Neighbourhood", width= 600, height= 800)
             st.plotly_chart(fig_price)
 
         with col2:
 
             fig_price_2= px.bar(df_price, x= "Avarage_price", y= "host_neighbourhood", orientation='h',
-                                title= "AVERAGE PRICE BASED ON HOST_NEIGHBOURHOOD",width= 600, height= 800)
+                                title= "Average Price based on Host Neighbourhood",width= 600, height= 800)
             st.plotly_chart(fig_price_2)
 
         col1, col2= st.columns(2)
@@ -357,18 +352,18 @@ if select == "Data Exploration":
             
             fig_price_3= px.bar(df_price_1, x= "Total_price", y= "host_location", orientation='h',
                                 width= 600,height= 800,color_discrete_sequence=px.colors.sequential.Bluered_r,
-                                title= "PRICE BASED ON HOST_LOCATION")
+                                title= "Price based on Host Location")
             st.plotly_chart(fig_price_3)
 
         with col2:
 
             fig_price_4= px.bar(df_price_1, x= "Avarage_price", y= "host_location", orientation='h',
                                 width= 600, height= 800,color_discrete_sequence=px.colors.sequential.Bluered_r,
-                                title= "AVERAGE PRICE BASED ON HOST_LOCATION")
+                                title= "Average Price based on Host Location")
             st.plotly_chart(fig_price_4)
 
 
-        room_type_t= st.selectbox("Select the Room_Type_t",df2_t_sorted["room_type"].unique())
+        room_type_t= st.selectbox(":blue[Select the Room Type]",df2_t_sorted["room_type"].unique(),key='8')
 
         df3_t= df2_t_sorted[df2_t_sorted["room_type"] == room_type_t]
 
@@ -381,7 +376,7 @@ if select == "Data Exploration":
         fig_top_50_price_1= px.bar(df3_top_50_price, x= "name",  y= "price" ,color= "price",
                                  color_continuous_scale= "rainbow",
                                 range_color=(0,df3_top_50_price["price"].max()),
-                                title= "MINIMUM_NIGHTS MAXIMUM_NIGHTS AND ACCOMMODATES",
+                                title= "Minimum, Maximum Nights and Accomodates",
                                 width=1200, height= 800,
                                 hover_data= ["minimum_nights","maximum_nights","accommodates"])
         
@@ -389,7 +384,7 @@ if select == "Data Exploration":
 
         fig_top_50_price_2= px.bar(df3_top_50_price, x= "name",  y= "price",color= "price",
                                  color_continuous_scale= "greens",
-                                 title= "BEDROOMS, BEDS, ACCOMMODATES AND BED_TYPE",
+                                 title= "Bedrooms, Beds and Accommodates",
                                 range_color=(0,df3_top_50_price["price"].max()),
                                 width=1200, height= 800,
                                 hover_data= ["accommodates","bedrooms","beds","bed_type"])
@@ -398,35 +393,29 @@ if select == "Data Exploration":
 
 if select == "About":
 
-    st.header("ABOUT THIS PROJECT")
+    st.header(":green[About the Project]")
 
-    st.subheader(":orange[1. Data Collection:]")
+    st.subheader(":blue[1. Data Collection:]")
 
-    st.write('''***Gather data from Airbnb's public API or other available sources.
-        Collect information on listings, hosts, reviews, pricing, and location data.***''')
+    st.write('''***Retrieve data from Airbnb's public API or alternative sources. Acquire details encompassing listings,
+             hosts, reviews, pricing, and geographical data.***''')
     
-    st.subheader(":orange[2. Data Cleaning and Preprocessing:]")
+    st.subheader(":blue[2. Data Cleaning and Preprocessing:]")
 
-    st.write('''***Clean and preprocess the data to handle missing values, outliers, and ensure data quality.
-        Convert data types, handle duplicates, and standardize formats.***''')
+    st.write('''***Perform data cleaning and preprocessing procedures to address missing values, outliers, and ensure data
+              integrity. Convert data types as necessary, manage duplicate entries, and standardize formats for consistency.***''')
     
-    st.subheader(":orange[3. Exploratory Data Analysis (EDA):]")
+    st.subheader(":blue[3. Exploratory Data Analysis (EDA):]")
 
-    st.write('''***Conduct exploratory data analysis to understand the distribution and patterns in the data.
-        Explore relationships between variables and identify potential insights.***''')
+    st.write('''***Undertake exploratory data analysis (EDA) to comprehend the data's distribution and patterns. Explore
+             interrelationships among variables to uncover potential insights and correlations.***''')
     
-    st.subheader(":orange[4. Visualization:]")
+    st.subheader(":blue[4. Visualization:]")
 
-    st.write('''***Create visualizations to represent key metrics and trends.
-        Use charts, graphs, and maps to convey information effectively.
-        Consider using tools like Matplotlib, Seaborn, or Plotly for visualizations.***''')
+    st.write('''***Generate visual representations to illustrate significant metrics and trends. Employ a variety of charts,
+             graphs, and maps to effectively communicate information. Consider utilizing visualization libraries such as Matplotlib, Seaborn, or Plotly to create impactful visualizations.***''')
     
-    st.subheader(":orange[5. Geospatial Analysis:]")
+    st.subheader(":blue[5. Geospatial Analysis:]")
 
-    st.write('''***Utilize geospatial analysis to understand the geographical distribution of listings.
-        Map out popular areas, analyze neighborhood characteristics, and visualize pricing variations.***''')
-
-
-
-
-
+    st.write('''***Leverage geospatial analysis to comprehend the geographic dispersion of listings. Plot popular regions,
+             scrutinize neighborhood attributes, and visualize fluctuations in pricing.***''')
